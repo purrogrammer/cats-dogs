@@ -10,11 +10,15 @@ function flipCard() {
         //first click
         hasFlippedCard = true; 
         firstcard = this;
-    } else {
-        //second click
-        hasFlippedCard = false; 
-        secondCard = this;
+        return;
+    } 
+    
+    secondCard = this;
+    hasFlippedCard = false;
+    checkForMatch();
+}
 
+function checkForMatch() {
         //match logic 
         if (firstCard.dataset.framework === secondCard.dataset.framework) {
             //IF match
@@ -28,5 +32,33 @@ function flipCard() {
              }, 2000);
      }
     }
+
+    function disableCards() {
+        firstCard.removeEventListener('click', flipCard);
+        secondCard.removeEventListener('click', flipCard);
+
+        resetBoard();
+      }
+
+      function unflipCards() {
+        lockBoard = true;
+
+        setTimeout(() => {
+          firstCard.classList.remove('flip');
+          secondCard.classList.remove('flip'); resetBoard();
+        }, 2000);
+      }
+
+      function resetBoard() {
+          [hasFlippedCard, lockBoard] = [false, false];
+          [firstCard, secondCard] = [null, null];
+      }
+
+      (function shuffle() {
+        cards.forEach(card => {
+          let ramdomPos = Math.floor(Math.random() * 12);
+          card.style.order = ramdomPos;
+        });
+      })();
 
 cards.forEach(card => card.addEventListener('click', flipCard));
