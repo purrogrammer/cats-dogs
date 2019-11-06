@@ -51,7 +51,7 @@ h1 {
 .card {
   width: calc(25% - 10px);
   height: calc(33.333% - 10px);
-  margin: 7px;
+  margin: 5px;
   position: relative;
   transform: scale(1); 
   transform-style: preserve-3d;
