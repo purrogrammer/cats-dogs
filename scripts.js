@@ -60,7 +60,6 @@ function checkForMatch() {
         firstCard.classList.add('border-change');
         secondCard.removeEventListener('click', flipCard);
         secondCard.classList.add('border-change');
-        match();
 
         resetBoard();
       }
