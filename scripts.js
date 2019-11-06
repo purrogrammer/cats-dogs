@@ -1,52 +1,79 @@
+
 const cards = document.querySelectorAll('.card');
 
 let hasFlippedCard = false;
-let firstCard, secondCard;
+let lockBoard = false; 
+let firstCard;
+let secondCard;
+
+//sounds 
+
+// class AudioController {
+//   constructor() {
+//       this.matchSound = new Audio('sounds/match.wav');
+//       this.victorySound = new Audio('sounds/victory.wav');
+//       this.gameOverSound = new Audio('sounds/gameOver.wav');
+//   }
+//   flip() {
+//       this.flipSound.play();
+//   }
+//   match() {
+//       this.matchSound.play();
+//   }
+//   victory() {
+//       this.victorySound.play();
+//   }
+//   gameOver() {
+//       this.gameOverSound.play();
+//   }
+// }
 
 function flipCard() {
-    this.classList.add('flip');
+        if (lockBoard) return;
+    if (this === firstCard) return;
 
-    if (!hasFlippedCard) {
-        //first click
+    this.classList.add('flip');
+       if (!hasFlippedCard) {
         hasFlippedCard = true; 
-        firstcard = this;
+        firstCard = this;
         return;
-    } 
+        } 
     
     secondCard = this;
-    hasFlippedCard = false;
+    lockBoard = true;
     checkForMatch();
 }
 
 function checkForMatch() {
         //match logic 
-        if (firstCard.dataset.framework === secondCard.dataset.framework) {
-            //IF match
-            firstCard.removeEventListener('click', flipCard);
-            secondCard.removeEventListener('click', flipCard);
-        } else {
-            //not a match
-            setTimeout(() => {
-                firstCard.classList.remove('flip');
-                secondCard.classList.remove('flip');
-             }, 2000);
-     }
-    }
+        let isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
+        isMatch ? disableCards() : unflipCards();
+          }
 
-    function disableCards() {
+      function disableCards() {
+        // firstCard.removeEventListener('click');
+        // firstCard.classList.add('border-change');
+        // secondCard.removeEventListener('click');
+        // secondCard.classList.add('border-change');
+        
         firstCard.removeEventListener('click', flipCard);
+        firstCard.classList.add('border-change');
         secondCard.removeEventListener('click', flipCard);
+        secondCard.classList.add('border-change');
+        match();
 
         resetBoard();
       }
 
       function unflipCards() {
-        lockBoard = true;
+          lockBoard = true;
 
-        setTimeout(() => {
+          setTimeout(() => {
           firstCard.classList.remove('flip');
-          secondCard.classList.remove('flip'); resetBoard();
-        }, 2000);
+          secondCard.classList.remove('flip'); 
+
+         resetBoard();
+        }, 1500);
       }
 
       function resetBoard() {
